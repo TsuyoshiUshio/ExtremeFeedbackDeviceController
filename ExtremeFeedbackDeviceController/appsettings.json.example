@@ -1,0 +1,6 @@
+{
+  "ContainerUrl": "YOUR_BLOB_URL_HERE",
+  "NumberOfLumps": "2",
+  "HueUserName": "YOUR_HUE_USER_NAME_HERE",
+  "HueBridgeIp": "YOUR_HUE_BRIDGE_IP_HERE"
+}
