@@ -18,7 +18,7 @@ jobs:
         dotnet-version: 3.1.101
     - name: Extract Tag version
       id: tag
-      run: VERSION=`echo ${{ github.ref }} | sed -e 's/refs\/tags\///'`; echo "::set-output name=version::$VERSION"
+      run: bash -c "VERSION=`echo ${{ github.ref }} | sed -e 's/refs\/tags\///'`; echo \"::set-output name=version::$VERSION\""
     - name: Test TAG
       run: echo ${{ steps.tag.version }}
     - name: Install dependencies
@@ -26,7 +26,7 @@ jobs:
     - name: Publish Linux
       run: dotnet publish -c Release -r linux-x64 -p:PublishSingleFile=true -p:PublishReadyToRun=true
     - name: Publish Windows
-      run: dotnet publish -c Release -r linux-x64 -p:PublishSingleFile=true -p:PublishReadyToRun=false
+      run: dotnet publish -c Release -r win10-x64 -p:PublishSingleFile=true -p:PublishReadyToRun=false
     - name: Create Zip File - Linux
       uses: montudor/action-zip@v0.1.0
       with: 
