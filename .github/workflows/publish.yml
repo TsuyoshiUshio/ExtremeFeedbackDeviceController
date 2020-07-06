@@ -18,7 +18,7 @@ jobs:
         dotnet-version: 3.1.101
     - name: Extract Tag version
       id: tag
-      run: bash -c "echo \"::set-output name=version::$(echo ${{ github.ref }} | sed -e 's/refs\/tags\///')\""
+      run: echo "::set-output name=version::$(echo ${{ github.ref }} | sed -e 's/refs\/tags\///')"
     - name: Test TAG
       run: echo ${{ steps.tag.version }}
     - name: Install dependencies
