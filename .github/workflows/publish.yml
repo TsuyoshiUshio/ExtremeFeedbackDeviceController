@@ -16,6 +16,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
+    - name: Extract Tag version
+      run: TAG=`echo ${{ github.ref }} | sed -e 's/refs\/tags\///'`; echo "::set-env name=tag::$TAG"
+    - name: Test TAG
+      run: echo $tag
     - name: Install dependencies
       run: dotnet restore
     - name: Publish Linux
@@ -25,11 +29,11 @@ jobs:
     - name: Create Zip File - Linux
       uses: montudor/action-zip@v0.1.0
       with: 
-        args: zip -qq -r ./ExtremeFeedbackDeviceController-${{ github.ref }}-linux-x64.zip ./ExtremeFeedbackDeviceController/bin/Release/netcoreapp3.1/linux-x64/publish
+        args: zip -qq -r ./ExtremeFeedbackDeviceController-${{ tag }}-linux-x64.zip ./ExtremeFeedbackDeviceController/bin/Release/netcoreapp3.1/linux-x64/publish
     - name: Create Zip File - Windows
       uses: montudor/action-zip@v0.1.0
       with: 
-        args: zip -qq -r ./ExtremeFeedbackDeviceController-${{ github.ref }}-win10-x64.zip ./ExtremeFeedbackDeviceController/bin/Release/netcoreapp3.1/win10-x64/publish
+        args: zip -qq -r ./ExtremeFeedbackDeviceController-${{ tag }}-win10-x64.zip ./ExtremeFeedbackDeviceController/bin/Release/netcoreapp3.1/win10-x64/publish
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -47,8 +51,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./ExtremeFeedbackDeviceController-${{ github.ref }}-linux-x64.zip
-        asset_name: ExtremeFeedbackDeviceController-${{ github.ref }}-linux-x64.zip
+        asset_path: ./ExtremeFeedbackDeviceController-${{ tag }}-linux-x64.zip
+        asset_name: ExtremeFeedbackDeviceController-${{ tag }}-linux-x64.zip
         asset_content_type: application/zip
     - name: Upload Release Asset - windows
       id: upload-release-asset-win
@@ -57,7 +61,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./ExtremeFeedbackDeviceController-${{ github.ref }}-win10-x64.zip
-        asset_name: ExtremeFeedbackDeviceController-${{ github.ref }}-win10-x64.zip
+        asset_path: ./ExtremeFeedbackDeviceController-${{ tag }}-win10-x64.zip
+        asset_name: ExtremeFeedbackDeviceController-${{ tag }}-win10-x64.zip
         asset_content_type: application/zip
   
