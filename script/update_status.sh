@@ -4,7 +4,7 @@ set -euo pipefail
 
 # Update Status
 # Upload Status Json to the Blob Strage on Azure. 
-# az long before execture this command
+# az login before execture this command
 # -e: immediately exit if any commands has a non-zero exit status
 # -o: prevents errors in a pipeline from being masked
 
